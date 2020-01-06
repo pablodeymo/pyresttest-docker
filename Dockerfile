@@ -20,11 +20,15 @@ RUN apk add --no-cache --virtual .build-dependencies build-base curl-dev \
     && pip install pycurl \
     && apk del .build-dependencies
 
+RUN apk add --no-cache git
+
+RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
+
 RUN git clone https://github.com/svanoort/pyresttest /root/pyresttest
-RUN cd /root/pyresttest
-RUN git remote add torchingloom https://github.com/torchingloom/pyresttest
-RUN git pull --no-edit torchingloom master
-RUN python setup.py install
+RUN cd /root/pyresttest \
+    && git remote add torchingloom https://github.com/torchingloom/pyresttest \
+    && git pull --no-edit torchingloom master \
+    && python setup.py install
 
 WORKDIR /tests
 
